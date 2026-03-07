@@ -44,3 +44,15 @@ AIコメント: Gemini通信エラー:
     - Set the `GOOGLE_API_KEY` environment variable.
     - Manually pass the key with `genai.configure(api_key=my_api_key)`.
     - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+
+=== ニュースレポート (2026-03-07 22:10:33) ===
+・ イラン軍 海峡封鎖するつもりないNEW
+・ 中東情勢 宙に浮くウクライナ協議NEW
+・ 災害救助犬 認定制度への挑戦NEW
+・ ラッパーが前首相を下す ネパール
+・ 首相 WBC始球式への参加見送り
+・ 侍ジャパン 逆転で韓国下し2連勝NEW
+・ 木村拓哉の代役に中国系俳優 報道
+・ エヴァの公式映像データ流出 謝罪
+
+AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
