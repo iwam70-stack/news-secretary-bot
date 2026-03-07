@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: "🔥 本日の重要ニュースレポート"
-          body: "GitHub Actionsからの報告です。詳細はリポジトリの daily_report.txt を確認してください。"
+          body: file://mail_body.txt
           to: iwam70@gmail.com
           from: GitHub News Secretary
       
