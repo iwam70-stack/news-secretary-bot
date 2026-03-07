@@ -2,8 +2,20 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import os
+import google.generativeai as genai
 
 WATCH_LIST = ["震災", "暴風", "衝突", "大勝", "静岡", "藤枝"]
+
+# Geminiの初期設定
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel('gemini-1.5-flash') # 2026年でも現役の高速モデル
+
+def ask_gemini(prompt):
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"Gemini通信エラー: {e}"
 
 def run():
     url = "https://www.yahoo.co.jp/"
@@ -11,9 +23,7 @@ def run():
     all_links = soup.find_all('a', href=True)
 
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    # ここで report_text を定義し始めます
     report_text = f"\n=== ニュースレポート ({now_str}) ===\n"
-    
     important_news_list = []
     
     for item in all_links:
@@ -24,21 +34,24 @@ def run():
             mark = "★【特報】" if is_important else "・"
             report_text += f"{mark} {title}\n"
             if is_important:
-                important_news_list.append(f"{mark} {title}")
+                important_news_list.append(title)
     
-    # 全件を daily_report.txt に追記（履歴用）
-    with open("daily_report.txt", "a", encoding="utf-8") as f:
-        f.write(report_text)
+    # --- ここからGeminiの出番 ---
+    if important_news_list:
+        news_str = "\n".join(important_news_list)
+        prompt = f"以下のニュースを、地元の話題に興味がある人に向けて短く要約して、一言コメントを添えてください。\n\n{news_str}"
+    else:
+        prompt = "今日は注目キーワードに一致するニュースがありませんでした。仕事やプログラミングを頑張っている私に、短く励ましのメッセージを1つください。"
     
-    # 最新の「重要ニュースだけ」を mail_body.txt に書き出す（メール用）
-    # 重要ニュースがない場合はその旨を記載
+    ai_comment = ask_gemini(prompt)
+    
+    # メール用の本文作成
     with open("mail_body.txt", "w", encoding="utf-8") as f:
-        if important_news_list:
-            f.write("\n".join(important_news_list))
-        else:
-            f.write("本日は指定したキーワードに一致する重要ニュースはありませんでした。")
+        f.write(f"【AI秘書からの報告】\n\n{ai_comment}")
     
-    print("ファイルへの書き出しが完了しました。")
+    # 履歴保存
+    with open("daily_report.txt", "a", encoding="utf-8") as f:
+        f.write(report_text + f"\nAIコメント: {ai_comment}\n")
 
 if __name__ == "__main__":
     run()
