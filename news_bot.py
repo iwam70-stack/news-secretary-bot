@@ -8,7 +8,7 @@ WATCH_LIST = ["震災", "暴風", "衝突", "大勝", "静岡", "藤枝"]
 
 # Geminiの初期設定
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-pro')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 def ask_gemini(prompt):
     try:
