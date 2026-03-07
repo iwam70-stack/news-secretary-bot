@@ -80,3 +80,15 @@ AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash-latest is not
 ・ 木村拓哉の代役に中国系俳優 報道
 
 AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash-8b is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+=== ニュースレポート (2026-03-07 22:21:14) ===
+・ イラン攻撃から1週間 終結見えずNEW
+・ 中東情勢 宙に浮くウクライナ協議NEW
+・ 災害救助犬 認定制度への挑戦
+・ ラッパーが前首相を下す ネパール
+・ 首相 WBC始球式への参加見送り
+・ ハイライト動画 侍Jが韓国に勝利NEW
+・ 内博貴 ソロ音楽活動スタートNEW
+・ 木村拓哉の代役に中国系俳優 報道
+
+AIコメント: Gemini通信エラー: 404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
