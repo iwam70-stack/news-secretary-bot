@@ -2,13 +2,16 @@ name: Daily News Check
 
 on:
   schedule:
-    # 毎日 00:00 UTC（日本時間の朝9時）に実行
     - cron: '0 0 * * *'
-  workflow_dispatch: # ボタン一つで手動実行もできるようにする
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 書き込み権限を与える設定
+    permissions:
+      contents: write
+      
     steps:
       - name: コードをチェックアウト
         uses: actions/checkout@v3
@@ -19,8 +22,15 @@ jobs:
           python-version: '3.11'
 
       - name: ライブラリをインストール
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Python実行
+      - name: Python実行（ファイル作成）
         run: python news_bot.py
+
+      - name: 変更をリポジトリに保存
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add daily_report.txt
+          git commit -m "Add daily news report" || echo "No changes to commit"
+          git push
