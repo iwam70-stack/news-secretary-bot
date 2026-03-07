@@ -1,0 +1,26 @@
+name: Daily News Check
+
+on:
+  schedule:
+    # 毎日 00:00 UTC（日本時間の朝9時）に実行
+    - cron: '0 0 * * *'
+  workflow_dispatch: # ボタン一つで手動実行もできるようにする
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Pythonを準備
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: ライブラリをインストール
+        run: |
+          pip install -r requirements.txt
+
+      - name: Python実行
+        run: python news_bot.py
