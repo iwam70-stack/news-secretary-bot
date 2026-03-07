@@ -28,3 +28,6 @@ def run():
 
 if __name__ == "__main__":
     run()
+# 最新のニュースだけを「mail_body.txt」として保存
+    with open("mail_body.txt", "w", encoding="utf-8") as f:
+        f.write(report_text)
