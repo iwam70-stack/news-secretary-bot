@@ -25,6 +25,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Python実行（ファイル作成）
+        env:  # ← これを追加！
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}  # ← これも追加！
         run: python news_bot.py
      
       - name: 重要ニュースがあればメール送信
