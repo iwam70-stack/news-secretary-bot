@@ -26,7 +26,20 @@ jobs:
 
       - name: Python実行（ファイル作成）
         run: python news_bot.py
-
+     
+      - name: 重要ニュースがあればメール送信
+        if: success() # 前のステップが成功した時だけ実行
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "🔥 本日の重要ニュースレポート"
+          body: "GitHub Actionsからの報告です。詳細はリポジトリの daily_report.txt を確認してください。"
+          to: iwam70@gmail.com
+          from: GitHub News Secretary
+      
       - name: 変更をリポジトリに保存
         run: |
           git config --local user.email "action@github.com"
