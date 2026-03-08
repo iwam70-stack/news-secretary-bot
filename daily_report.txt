@@ -116,3 +116,15 @@ AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found 
 ・ 木村拓哉の代役に中国系俳優 報道
 
 AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+=== ニュースレポート (2026-03-08 05:00:55) ===
+・ 中東混迷 長期化で対中戦略影響かNEW
+・ 米 対麻薬組織で中南米諸国と連合
+・ 女性の色はピンク? 根強い偏見
+・ 木村文乃 女川町の海に潜るわけ
+・ 1万円台「ランドセル」変わる常識
+・ 速報WBC 韓国が台湾にリードLIVE
+・ with MUSIC終了 テレビの変化NEW
+・ 車中泊生活40代夫婦 手放した安定NEW
+
+AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
