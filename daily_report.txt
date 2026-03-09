@@ -128,3 +128,15 @@ AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found 
 ・ 車中泊生活40代夫婦 手放した安定NEW
 
 AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+=== ニュースレポート (2026-03-09 05:12:25) ===
+・ 日経平均 4000円規模下落した背景NEW
+・ カキ被害 気仙沼から広島へ恩返しNEW
+・ 名神高速料金所で車炎上 男性死亡
+・ 国立の博物館などに収入目標 波紋
+・ 「マイル修行」で謝罪 JALの誤算
+・ 氷河期世代の男性 なぜ生きづらいNEW
+・ 日本の美容院 訪日客に人気の理由
+・ 大河「豊臣兄弟!」なぜ評判良いNEW
+
+AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
