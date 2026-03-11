@@ -4,22 +4,34 @@ import datetime
 import os
 import google.generativeai as genai
 
+# 静岡・藤枝のワード、しっかり入っていますね！
 WATCH_LIST = ["震災", "暴風", "衝突", "大勝", "静岡", "藤枝"]
 
-# Geminiの初期設定
+# --- Geminiの初期設定（ここを修正しました） ---
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+
+# モデル名の指定に 'models/' を追加して、404エラーを確実に回避します
+model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 def ask_gemini(prompt):
     try:
+        # 実行！
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f"Gemini通信エラー: {e}"
+        # repr(e) にすることで、型情報を含めた詳細なエラー内容が分かります
+        return f"Gemini通信エラー: {repr(e)}"
 
 def run():
     url = "https://www.yahoo.co.jp/"
-    soup = BeautifulSoup(requests.get(url).content, "html.parser")
+    try:
+        res = requests.get(url)
+        res.raise_for_status() # 通信エラーチェック
+        soup = BeautifulSoup(res.content, "html.parser")
+    except Exception as e:
+        print(f"Yahoo!へのアクセス失敗: {e}")
+        return
+
     all_links = soup.find_all('a', href=True)
 
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -29,6 +41,7 @@ def run():
     for item in all_links:
         link = item.get("href")
         title = item.text.strip()
+        # Yahooニュースのピックアップを判定
         if 'news.yahoo.co.jp/pickup' in link and title:
             is_important = any(word in title for word in WATCH_LIST)
             mark = "★【特報】" if is_important else "・"
