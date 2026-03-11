@@ -22,8 +22,10 @@ jobs:
           python-version: '3.11'
 
       - name: ライブラリをインストール
-        run: pip install -r requirements.txt
-
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade -r requirements.txt
+          
       - name: Python実行（ファイル作成）
         env:  # ← これを追加！
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}  # ← これも追加！
