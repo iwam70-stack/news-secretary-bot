@@ -152,3 +152,15 @@ AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found 
 ・ 中村鶴松 不起訴処分受けコメント
 
 AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+=== ニュースレポート (2026-03-11 01:01:46) ===
+★【特報】 きょう震災15年 いまだ2519人不明
+・ 原発放水車両「キリン」お役御免
+・ イランの機雷敷設艦を破壊 米発表NEW
+・ 東証一時1200円超の上昇 買い先行NEW
+・ コロワイドのベローチェ買収 解説
+・ 珍しい 九州にタンチョウが飛来NEW
+・ 大谷欠場 井端監督「疲労も考慮」
+・ chelmico鈴木真海子 ソロ活動再開NEW
+
+AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
