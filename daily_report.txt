@@ -164,3 +164,15 @@ AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found 
 ・ chelmico鈴木真海子 ソロ活動再開NEW
 
 AIコメント: Gemini通信エラー: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+=== ニュースレポート (2026-03-11 12:20:22) ===
+・ 16日にも石油備蓄放出へ 首相表明NEW
+・ 小4で被災 結婚して「世界」変化
+・ 作業員が灰で生き埋めか 意識不明NEW
+・ 地中から巨大な管 ドーンと衝撃音
+・ 文科相 不倫相手と議員会館で面会NEW
+・ 別荘地巡る訴訟 大谷選手ら和解
+・ 伊にまさかの敗北 ジャッジぼう然
+・ 俳優・小林尚臣さん死去 77歳NEW
+
+AIコメント: Gemini通信エラー: NotFound('models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.')
