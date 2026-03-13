@@ -41,12 +41,18 @@ def get_ai_explanation(word_list):
 
 def run():
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    trends = get_x_trends() # リスト形式で取得するように少し改造
     
-    # トレンドがあればAIに解説を頼む（失敗しても死なない）
-    ai_comment = get_ai_explanation(trends) if trends else "トレンドなし"
+    # トレンドリストを取得
+    trends_text = get_x_trends() 
     
-    report = f"【朝イチのXトレンド報告】\n作成日時: {now_str}\n\n{trends_text}"
+    # トレンドがあればAIに解説を頼む
+    # trends_text は改行区切りの文字列なので、そのまま渡してOK！
+    # (変数名を trends_text に合わせました)
+    ai_comment = get_ai_explanation(trends_text.split('\n')) if "位" in trends_text else "トレンドなし"
+    
+    # reportに ai_comment を合体させます！
+    report = f"【朝イチのXトレンド報告】\n作成日時: {now_str}\n\n{ai_comment}"
+    
     print(report) # ログ確認用
     
     # メール送信用ファイルに書き出し
