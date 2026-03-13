@@ -26,9 +26,25 @@ def get_x_trends():
     except Exception as e:
         return f"トレンド取得エラー: {e}"
 
+# --- 追加する解説関数 ---
+def get_ai_explanation(word_list):
+    try:
+        # モデル名は必ず「本名」で！
+        model = genai.GenerativeModel('models/gemini-1.5-flash')
+        prompt = f"以下のトレンドワードについて、それぞれ何が起きているか15文字以内で簡潔に解説してください。\n\n" + "\n".join(word_list)
+        
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        # ここが肝！エラーが出ても、システムは止めずに「空」を返す
+        return f"（AI解説は現在お休み中です: {e}）"
+
 def run():
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    trends_text = get_x_trends()
+    trends = get_x_trends_list() # リスト形式で取得するように少し改造
+    
+    # トレンドがあればAIに解説を頼む（失敗しても死なない）
+    ai_comment = get_ai_explanation(trends) if trends else "トレンドなし"
     
     report = f"【朝イチのXトレンド報告】\n作成日時: {now_str}\n\n{trends_text}"
     print(report) # ログ確認用
