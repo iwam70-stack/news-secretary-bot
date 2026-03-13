@@ -41,7 +41,7 @@ def get_ai_explanation(word_list):
 
 def run():
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    trends = get_x_trends_list() # リスト形式で取得するように少し改造
+    trends = get_x_trends() # リスト形式で取得するように少し改造
     
     # トレンドがあればAIに解説を頼む（失敗しても死なない）
     ai_comment = get_ai_explanation(trends) if trends else "トレンドなし"
