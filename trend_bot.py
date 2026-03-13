@@ -1,7 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import os                   # ← これを追加（APIキーの読み込み用）
+import google.generativeai as genai  # ← これを追加（Gemini本体）
 
+# Geminiの初期設定（ここも忘れずに！）
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
+# ...あとは今のコードのままでOKです！
 def get_x_trends():
     url = "https://search.yahoo.co.jp/realtime"
     try:
