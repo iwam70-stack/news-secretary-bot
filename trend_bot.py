@@ -36,7 +36,7 @@ def get_x_trends():
 def get_ai_explanation(word_list):
     try:
         # モデル名は必ず「本名」で！
-        model = genai.GenerativeModel('models/gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         prompt = f"以下のトレンドワードについて、それぞれ何が起きているか15文字以内で簡潔に解説してください。\n\n" + "\n".join(word_list)
         
         response = model.generate_content(prompt)
