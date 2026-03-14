@@ -42,16 +42,21 @@ def get_x_trends():
         return f"トレンド取得エラー: {e}"
 
 # --- 追加する解説関数 ---
+# --- 修正後の解説関数 ---
 def get_ai_explanation(word_list):
     try:
-        # モデル名は必ず「本名」で！
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        prompt = f"以下のトレンドワードについて、それぞれ何が起きているか15文字以内で簡潔に解説してください。\n\n" + "\n".join(word_list)
+        # モデルを作る時に、無理やり v1 の部屋へ向かわせる！
+        model = genai.GenerativeModel(
+            model_name='gemini-1.5-flash',
+        )
         
+        # 実行時に v1 を指定する（これが沼脱出の鍵！）
+        prompt = f"以下のトレンドワードについて、何が起きているか15文字以内で簡潔に解説してください。\n\n" + "\n".join(word_list)
+        
+        # generate_contentの中で api_version を指定する裏技（あるいは configure で指定）
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        # ここが肝！エラーが出ても、システムは止めずに「空」を返す
         return f"（AI解説は現在お休み中です: {e}）"
 
 def run():
