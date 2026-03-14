@@ -27,6 +27,8 @@ jobs:
           # google-generativeai を追加します
           pip install requests beautifulsoup4 google-generativeai
       - name: Python実行（トレンド取得）
+        env:  # ← これ！これが「給料（APIキー）」を渡す指示です
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}  
         run: python trend_bot.py
         
       - name: 重要ニュースがあればメール送信
