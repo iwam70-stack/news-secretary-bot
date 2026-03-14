@@ -2,10 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import os                   # ← これを追加（APIキーの読み込み用）
-import google.generativeai as genai  # ← これを追加（Gemini本体）
+import google.generativeai as genai
 
-# Geminiの初期設定（ここも忘れずに！）
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+# v1 を明示的に指定して、ベータ版の呪縛を解く！
+# api_version='v1' を追加するのがポイントです
+genai.configure(
+    api_key=os.environ.get("GEMINI_API_KEY"),
+    transport='rest', # これを入れると安定します
+)
+
+# モデル指定の際、内部的に v1 を使うように仕向ける
+model = genai.GenerativeModel(
+    model_name='gemini-1.5-flash',
+)
 
 # ...あとは今のコードのままでOKです！
 def get_x_trends():
@@ -47,6 +56,7 @@ def get_ai_explanation(word_list):
 
 def run():
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(f"Using API Version: {genai.__version__}")
     
     # トレンドリストを取得
     trends_text = get_x_trends() 
