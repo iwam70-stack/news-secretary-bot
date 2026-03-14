@@ -16,21 +16,18 @@ def get_x_trends():
         items = soup.select('section > ol > li')
         
         for i, item in enumerate(items[:10], 1):
-            # トレンドの言葉
             word_element = item.select_one('a')
-            word = word_element.text.strip() if word_element else "不明"
-            
-            # トレンドの「説明文」や「関連キーワード」を取得
-            # Yahoo!の構造上、aタグの後のdivやpに説明が入ることが多いです
-            desc_element = item.select_one('div > div:last-child') 
-            if not desc_element:
-                desc_element = item.select_one('p')
-            
-            desc_text = desc_element.text.strip() if desc_element else "（詳細はリンク先へ）"
-            # 改行が含まれるとメールが見づらいので除去
-            desc_text = desc_text.replace('\n', ' ')
-            
-            trends_list.append(f"{i}位: {word}\n   👉 {desc_text}")
+            if word_element:
+                word = word_element.text.strip()
+                # 🔗 リンク（href）を取得して、絶対URLに変換
+                link = word_element.get('href')
+                if link and link.startswith('/'):
+                    link = "https://search.yahoo.co.jp" + link
+            else:
+                word, link = "不明", ""
+
+            # レポートの作成（ワード、リンク、説明の3点セット）
+            trends_list.append(f"{i}位: {word}\n   🔗 {link}\n   👉 詳細は上記URLでチェック！")
             
         return "\n\n".join(trends_list) if trends_list else "トレンドが見つかりませんでした。"
     except Exception as e:
