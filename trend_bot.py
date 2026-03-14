@@ -1,78 +1,46 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import os                   # ← これを追加（APIキーの読み込み用）
-import google.generativeai as genai
 
-# v1 を明示的に指定して、ベータ版の呪縛を解く！
-# api_version='v1' を追加するのがポイントです
-genai.configure(
-    api_key=os.environ.get("GEMINI_API_KEY"),
-    transport='rest', # これを入れると安定します
-)
-
-# モデル指定の際、内部的に v1 を使うように仕向ける
-model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash',
-)
-
-# ...あとは今のコードのままでOKです！
 def get_x_trends():
     url = "https://search.yahoo.co.jp/realtime"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+    
     try:
-        # User-Agentを設定して、ブラウザからのアクセスに見せかけます
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
         res = requests.get(url, headers=headers)
         res.raise_for_status()
         soup = BeautifulSoup(res.content, "html.parser")
         
-        # 2026年現在のYahoo!リアルタイム検索のトレンド項目を抽出
-        # ランキングのテキストが入っている要素を特定します
-        trends = []
-        # aタグ内のテキストがトレンドワードになっています
-        rank_items = soup.select('section > ol > li a') 
+        trends_list = []
+        # トレンドの各項目（li要素）を取得
+        items = soup.select('section > ol > li')
         
-        for i, item in enumerate(rank_items[:10], 1):
-            # 余計な空白や改行を削ってリスト化
-            word = item.text.strip().replace('\n', '')
-            trends.append(f"{i}位: {word}")
-        
-        return "\n".join(trends) if trends else "トレンドが見つかりませんでした。"
+        for i, item in enumerate(items[:10], 1):
+            # トレンドの言葉
+            word_element = item.select_one('a')
+            word = word_element.text.strip() if word_element else "不明"
+            
+            # トレンドの「説明文」や「関連キーワード」を取得
+            # Yahoo!の構造上、aタグの後のdivやpに説明が入ることが多いです
+            desc_element = item.select_one('div > div:last-child') 
+            if not desc_element:
+                desc_element = item.select_one('p')
+            
+            desc_text = desc_element.text.strip() if desc_element else "（詳細はリンク先へ）"
+            # 改行が含まれるとメールが見づらいので除去
+            desc_text = desc_text.replace('\n', ' ')
+            
+            trends_list.append(f"{i}位: {word}\n   👉 {desc_text}")
+            
+        return "\n\n".join(trends_list) if trends_list else "トレンドが見つかりませんでした。"
     except Exception as e:
         return f"トレンド取得エラー: {e}"
 
-# --- 追加する解説関数 ---
-# --- 修正後の解説関数 ---
-def get_ai_explanation(word_list):
-    try:
-        # モデルを作る時に、無理やり v1 の部屋へ向かわせる！
-        model = genai.GenerativeModel(
-            model_name='gemini-1.5-flash',
-        )
-        
-        # 実行時に v1 を指定する（これが沼脱出の鍵！）
-        prompt = f"以下のトレンドワードについて、何が起きているか15文字以内で簡潔に解説してください。\n\n" + "\n".join(word_list)
-        
-        # generate_contentの中で api_version を指定する裏技（あるいは configure で指定）
-        response = model.generate_content(prompt)
-        return response.text
-    except Exception as e:
-        return f"（AI解説は現在お休み中です: {e}）"
-
 def run():
     now_str = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"Using API Version: {genai.__version__}")
+    content = get_x_trends()
     
-    # トレンドリストを取得
-    trends_text = get_x_trends() 
-    
-    # トレンドがあればAIに解説を頼む
-    # trends_text は改行区切りの文字列なので、そのまま渡してOK！
-    # (変数名を trends_text に合わせました)
-    ai_comment = get_ai_explanation(trends_text.split('\n')) if "位" in trends_text else "トレンドなし"
-    
-    # reportに ai_comment を合体させます！
-    report = f"【朝イチのXトレンド報告】\n作成日時: {now_str}\n\n{ai_comment}"
+    report = f"【朝イチのXトレンド報告（硬派版）】\n作成日時: {now_str}\n\n{content}"
     
     print(report) # ログ確認用
     
